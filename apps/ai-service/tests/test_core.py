@@ -171,3 +171,18 @@ async def test_process_company_extracts_signals_and_score():
     assert kept is not None
     assert kept.get("ok") is True
     assert kept.get("reason") != "icp"
+
+
+def test_health_endpoints():
+    from starlette.testclient import TestClient
+    from app.main import create_app
+
+    client = TestClient(create_app())
+    for path in ["/", "/health"]:
+        res_get = client.get(path)
+        assert res_get.status_code == 200
+        assert res_get.json() == {"status": "ok"}
+
+        res_head = client.head(path)
+        assert res_head.status_code == 200
+

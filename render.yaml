@@ -2,6 +2,7 @@ services:
   - type: web
     name: lead-intelligence-ai
     runtime: docker
+    plan: free
     dockerfilePath: apps/ai-service/Dockerfile
     dockerContext: apps/ai-service
     envVars:

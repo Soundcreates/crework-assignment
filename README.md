@@ -74,13 +74,19 @@ Run pytest from `apps/ai-service` or the repo root with `pytest apps/ai-service/
 
 ## Deploy notes
 
-- **Web:** Vercel from `apps/web`. Set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_AI_SERVICE_URL`.
-- **API:** Render/Fly using `apps/ai-service/Dockerfile` and `render.yaml`. Set `FRONTEND_URL` to the Vercel origin (CORS).
-- Do not deploy with `UVICORN_RELOAD=1`.
+- **Web:** Vercel deployed from `apps/web` at [https://lead-intelligence-web-nine.vercel.app](https://lead-intelligence-web-nine.vercel.app) (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_AI_SERVICE_URL`).
+- **API:** Render deployed in Hackathons workspace at [https://lead-intelligence-ai.onrender.com](https://lead-intelligence-ai.onrender.com) using `apps/ai-service/Dockerfile` and `render.yaml`. `FRONTEND_URL` configured for Vercel CORS.
+- Production deploys use `UVICORN_RELOAD=0` to ensure background discovery pipelines are uninterrupted.
+
+## Live Deployments & Demo
+
+- **Web Application (Vercel):** [https://lead-intelligence-web-nine.vercel.app](https://lead-intelligence-web-nine.vercel.app)
+- **AI Service Backend (Render):** [https://lead-intelligence-ai.onrender.com](https://lead-intelligence-ai.onrender.com)
+- **Backend Health Check:** [https://lead-intelligence-ai.onrender.com/health](https://lead-intelligence-ai.onrender.com/health)
 
 ## Submission checklist (manual)
 
-- [ ] Commit and push to GitHub
-- [ ] `supabase db push` on the demo project (002 + 003)
-- [ ] Deploy web + API; paste live demo URL here
+- [x] Commit and push to GitHub
+- [x] `supabase db push` on the demo project (001, 002, 003 applied)
+- [x] Deploy web + API to Render & Vercel
 - [ ] Record a 5–10 min Loom **after** a discovery run that produces non-zero scores on real companies (not publisher listicles)
