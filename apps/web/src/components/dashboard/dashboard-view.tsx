@@ -206,6 +206,7 @@ export function DashboardView() {
           {(unscored > 0 || bulkBusy) && (
             <button
               type="button"
+              aria-label="Enrich unscored"
               disabled={bulkBusy}
               onClick={() => void onEnrichUnscored()}
               className="rounded-md border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-50 disabled:opacity-60"
