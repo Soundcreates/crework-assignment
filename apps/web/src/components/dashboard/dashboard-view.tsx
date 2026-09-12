@@ -180,13 +180,13 @@ export function DashboardView() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
+          <p className="text-sm uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
             Sales Intelligence
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
             Lead Dashboard
           </h1>
-          <p className="mt-2 max-w-2xl text-zinc-600">
+          <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-300">
             Companies ranked by evidence-backed buying intent for outbound
             outreach.
           </p>
@@ -195,10 +195,10 @@ export function DashboardView() {
           <span
             className={`rounded-full px-2.5 py-1 text-xs font-medium ${
               aiHealthy
-                ? "bg-emerald-100 text-emerald-800"
+                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border dark:border-emerald-800/60"
                 : aiHealthy === false
-                  ? "bg-amber-100 text-amber-900"
-                  : "bg-zinc-100 text-zinc-600"
+                  ? "bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300 dark:border dark:border-amber-800/60"
+                  : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
             }`}
           >
             AI service {aiHealthy ? "online" : aiHealthy === false ? "offline" : "checking"}
@@ -209,7 +209,7 @@ export function DashboardView() {
               aria-label="Enrich unscored"
               disabled={bulkBusy}
               onClick={() => void onEnrichUnscored()}
-              className="rounded-md border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-50 disabled:opacity-60"
+              className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
             >
               {bulkEnrichButtonLabel(
                 bulkBusy,
@@ -221,7 +221,7 @@ export function DashboardView() {
           )}
           <Link
             href="/discover"
-            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
             Discover Leads
           </Link>
@@ -229,18 +229,18 @@ export function DashboardView() {
       </div>
 
       {usingSeed && (
-        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300">
           Showing seeded demo data. Connect Supabase env vars to load live
           companies.
         </div>
       )}
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
           {error}
         </div>
       )}
       {loading && (
-        <div className="text-sm text-zinc-500">Loading companies…</div>
+        <div className="text-sm text-zinc-500 dark:text-zinc-400">Loading companies…</div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -250,7 +250,7 @@ export function DashboardView() {
         <Stat label="Signals detected" value={String(signals.length)} />
       </div>
 
-      <div className="grid gap-3 rounded-xl border border-zinc-200 bg-white p-4 md:grid-cols-6">
+      <div className="grid gap-3 rounded-xl border border-zinc-200 bg-white p-4 md:grid-cols-6 dark:border-zinc-800 dark:bg-zinc-900/90">
         <Select
           label="Industry"
           value={filters.industry}
@@ -283,7 +283,7 @@ export function DashboardView() {
           options={["all", ...stages]}
         />
         <label className="text-sm">
-          <span className="mb-1 block text-zinc-500">Minimum score</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">Minimum score</span>
           <input
             type="number"
             min={0}
@@ -295,7 +295,7 @@ export function DashboardView() {
                 minScore: Number(e.target.value) || 0,
               }))
             }
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
           />
         </label>
         <Select
@@ -306,9 +306,9 @@ export function DashboardView() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/90">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-zinc-50 text-zinc-500">
+          <thead className="bg-zinc-50 text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
             <tr>
               <th className="px-4 py-3 font-medium">Company</th>
               <th className="px-4 py-3 font-medium">Industry</th>
@@ -323,30 +323,30 @@ export function DashboardView() {
           </thead>
           <tbody>
             {paged.map((company) => (
-              <tr key={company.id} className="border-t border-zinc-100">
+              <tr key={company.id} className="border-t border-zinc-100 hover:bg-zinc-50/50 dark:border-zinc-800 dark:hover:bg-zinc-800/40">
                 <td className="px-4 py-3">
                   <Link
                     href={`/companies/${company.id}`}
-                    className="font-medium text-zinc-900 hover:underline"
+                    className="font-medium text-zinc-900 hover:underline dark:text-zinc-100"
                   >
                     {company.name}
                   </Link>
-                  <div className="text-xs text-zinc-500">
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400">
                     {company.normalized_domain}
                     {company.source === "mock" ? (
-                      <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900">
+                      <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900 dark:bg-amber-950/70 dark:text-amber-300 dark:border dark:border-amber-800/60">
                         mock
                       </span>
                     ) : null}
                   </div>
                 </td>
-                <td className="px-4 py-3 text-zinc-700">
+                <td className="px-4 py-3 text-zinc-700 dark:text-zinc-300">
                   {company.industry ?? "—"}
                 </td>
-                <td className="px-4 py-3 text-zinc-700">
+                <td className="px-4 py-3 text-zinc-700 dark:text-zinc-300">
                   {company.estimated_stage ?? "—"}
                 </td>
-                <td className="px-4 py-3 text-zinc-700">
+                <td className="px-4 py-3 text-zinc-700 dark:text-zinc-300">
                   {(
                     signals
                       .filter((s) => s.company_id === company.id)
@@ -356,7 +356,7 @@ export function DashboardView() {
                     .map(signalLabel)
                     .join(", ") || "—"}
                 </td>
-                <td className="px-4 py-3 font-semibold text-zinc-900">
+                <td className="px-4 py-3 font-semibold text-zinc-900 dark:text-zinc-100">
                   {company.intent_score}
                 </td>
                 <td className="px-4 py-3">
@@ -375,7 +375,7 @@ export function DashboardView() {
                         e.target.value as ReviewStatus,
                       )
                     }
-                    className="rounded-md border border-zinc-300 px-2 py-1 text-xs"
+                    className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
                   >
                     <option value="new">new</option>
                     <option value="reviewing">reviewing</option>
@@ -384,7 +384,7 @@ export function DashboardView() {
                     <option value="contacted">contacted</option>
                   </select>
                 </td>
-                <td className="px-4 py-3 text-zinc-500">
+                <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400">
                   {company.first_discovered_at
                     ? new Date(company.first_discovered_at).toLocaleDateString()
                     : "—"}
@@ -394,7 +394,7 @@ export function DashboardView() {
                     type="button"
                     disabled={bulkBusy || enrichingId === company.id}
                     onClick={() => void onEnrich(company.id)}
-                    className="rounded-md border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-50 disabled:opacity-60"
+                    className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
                   >
                     {enrichingId === company.id ? "Enriching…" : "Enrich"}
                   </button>
@@ -403,11 +403,11 @@ export function DashboardView() {
             ))}
             {!loading && emptyConfigured && (
               <tr>
-                <td colSpan={9} className="px-4 py-10 text-center text-zinc-500">
+                <td colSpan={9} className="px-4 py-10 text-center text-zinc-500 dark:text-zinc-400">
                   <p>{EMPTY_LEADS_COPY}</p>
                   <Link
                     href="/discover"
-                    className="mt-3 inline-block rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white"
+                    className="mt-3 inline-block rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
                   >
                     {EMPTY_LEADS_CTA}
                   </Link>
@@ -418,7 +418,7 @@ export function DashboardView() {
               <tr>
                 <td
                   colSpan={9}
-                  className="px-4 py-10 text-center text-zinc-500"
+                  className="px-4 py-10 text-center text-zinc-500 dark:text-zinc-400"
                 >
                   No companies match these filters.
                 </td>
@@ -433,18 +433,18 @@ export function DashboardView() {
             type="button"
             disabled={safePage <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="rounded-md border border-zinc-300 px-3 py-1 disabled:opacity-50"
+            className="rounded-md border border-zinc-300 bg-white px-3 py-1 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
           >
             Previous
           </button>
-          <span>
+          <span className="text-zinc-700 dark:text-zinc-300">
             Page {safePage} of {pageCount}
           </span>
           <button
             type="button"
             disabled={safePage >= pageCount}
             onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-            className="rounded-md border border-zinc-300 px-3 py-1 disabled:opacity-50"
+            className="rounded-md border border-zinc-300 bg-white px-3 py-1 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
           >
             Next
           </button>
@@ -456,9 +456,9 @@ export function DashboardView() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4">
-      <div className="text-sm text-zinc-500">{label}</div>
-      <div className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900">
+    <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/90">
+      <div className="text-sm text-zinc-500 dark:text-zinc-400">{label}</div>
+      <div className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
         {value}
       </div>
     </div>
@@ -478,11 +478,11 @@ function Select({
 }) {
   return (
     <label className="text-sm">
-      <span className="mb-1 block text-zinc-500">{label}</span>
+      <span className="mb-1 block text-zinc-500 dark:text-zinc-400">{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-zinc-300 px-3 py-2 capitalize"
+        className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 capitalize dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
       >
         {options.map((option) => (
           <option key={option} value={option}>

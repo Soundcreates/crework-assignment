@@ -174,105 +174,105 @@ export function DiscoverView() {
   return (
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
-        <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline">
+        <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline dark:text-zinc-400 dark:hover:text-zinc-200">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-900">
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
           Discover Companies
         </h1>
-        <p className="mt-2 text-zinc-600">
+        <p className="mt-2 text-zinc-600 dark:text-zinc-300">
           Search public intent signals, enrich company profiles, extract evidence,
           and score outbound likelihood.
         </p>
-        <p className="mt-2 text-xs text-zinc-500">
+        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
           AI service {aiHealthy ? "online" : aiHealthy === false ? "offline" : "checking…"}
         </p>
       </div>
 
-      <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5">
+      <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/90">
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-500">Industries</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">Industries</span>
           <input
             value={industries}
             onChange={(e) => setIndustries(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
           />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-500">Keywords (optional)</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">Keywords (optional)</span>
           <input
             value={keywords}
             onChange={(e) => setKeywords(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
             placeholder="appointment setting, dentist marketing"
           />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-500">Country (optional)</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">Country (optional)</span>
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
             placeholder="US"
           />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-500">ICP stages (optional)</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">ICP stages (optional)</span>
           <input
             value={stages}
             onChange={(e) => setStages(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
             placeholder="seed, series a"
           />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-500">ICP headcount (optional)</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">ICP headcount (optional)</span>
           <input
             value={employeeRanges}
             onChange={(e) => setEmployeeRanges(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
             placeholder="1-50, 51-200"
           />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-500">Maximum companies</span>
+          <span className="mb-1 block text-zinc-500 dark:text-zinc-400">Maximum companies</span>
           <input
             type="number"
             min={1}
             max={100}
             value={maxCompanies}
             onChange={(e) => setMaxCompanies(Number(e.target.value) || 10)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
           />
         </label>
         <button
           type="button"
           disabled={busy}
           onClick={() => void onDiscover()}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
+          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
           {busy ? `Running… ${runStatus ?? ""}` : "Run Discovery"}
         </button>
       </div>
 
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
           <p>{error}</p>
-          {hint ? <p className="mt-2 text-red-700">{hint}</p> : null}
+          {hint ? <p className="mt-2 text-red-700 dark:text-red-400">{hint}</p> : null}
         </div>
       )}
 
       {isMock && result && (
-        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300">
           Results came from the mock search provider (missing or invalid Firecrawl
           key). These are fixture companies, not live web results.
         </div>
       )}
 
       {result && (
-        <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 text-sm text-zinc-700">
+        <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 text-sm text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300">
           <div>
-            Run ID: <code>{result.run_id}</code>
+            Run ID: <code className="rounded bg-zinc-100 px-1 py-0.5 font-mono text-xs text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">{result.run_id}</code>
           </div>
           <div>Status: {result.status}</div>
           <div>Provider: {result.provider}</div>
@@ -287,10 +287,10 @@ export function DiscoverView() {
             <div>{result.search_results_found} search results found</div>
             <div>{result.companies_discovered} companies discovered</div>
           </div>
-          <Link href="/dashboard" className="inline-block text-zinc-900 underline">
+          <Link href="/dashboard" className="inline-block text-zinc-900 underline dark:text-zinc-100">
             View ranked leads on dashboard
           </Link>
-          <ul className="mt-4 space-y-2 border-t border-zinc-100 pt-4">
+          <ul className="mt-4 space-y-2 border-t border-zinc-100 pt-4 dark:border-zinc-800">
             {(companies.length > 0
               ? companies.map((company) => ({
                   id: company.id,
@@ -305,18 +305,18 @@ export function DiscoverView() {
                 {company.id ? (
                   <Link
                     href={`/companies/${company.id}`}
-                    className="font-medium text-zinc-900 underline"
+                    className="font-medium text-zinc-900 underline dark:text-zinc-100"
                   >
                     {company.name}
                   </Link>
                 ) : (
-                  <span className="font-medium text-zinc-900">{company.name}</span>
+                  <span className="font-medium text-zinc-900 dark:text-zinc-100">{company.name}</span>
                 )}
                 {company.domain ? (
-                  <span className="text-zinc-500"> · {company.domain}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400"> · {company.domain}</span>
                 ) : null}
                 {"intent_score" in company && company.intent_score != null ? (
-                  <div className="text-xs text-zinc-500">
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400">
                     score {company.intent_score} · {company.intent_level}
                   </div>
                 ) : null}

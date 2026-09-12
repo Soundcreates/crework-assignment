@@ -53,58 +53,58 @@ export function CompanyDetail({ id }: { id: string }) {
   }, [id, seedCompany]);
 
   if (loading) {
-    return <p className="text-sm text-zinc-500">Loading company…</p>;
+    return <p className="text-sm text-zinc-500 dark:text-zinc-400">Loading company…</p>;
   }
 
   if (!company) {
     return (
       <div className="space-y-4">
-        <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline">
+        <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline dark:text-zinc-400 dark:hover:text-zinc-200">
           ← Back to dashboard
         </Link>
-        <h1 className="text-2xl font-semibold">Company not found</h1>
-        <p className="text-zinc-600">{error ?? "No company record for this id."}</p>
+        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">Company not found</h1>
+        <p className="text-zinc-600 dark:text-zinc-400">{error ?? "No company record for this id."}</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-8">
-      <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline">
+      <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline dark:text-zinc-400 dark:hover:text-zinc-200">
         ← Back to dashboard
       </Link>
 
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
           {error}
         </div>
       )}
 
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-900">
+          <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
             {company.name}
             {company.source === "mock" ? (
-              <span className="ml-3 align-middle rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-amber-900">
+              <span className="ml-3 align-middle rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-amber-900 dark:bg-amber-950/60 dark:text-amber-300">
                 mock
               </span>
             ) : null}
           </h1>
-          <p className="mt-2 text-zinc-600">{company.description}</p>
+          <p className="mt-2 text-zinc-600 dark:text-zinc-300">{company.description}</p>
           {company.website && (
             <a
               href={company.website}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-block text-sm text-zinc-900 underline"
+              className="mt-3 inline-block text-sm text-zinc-900 underline dark:text-zinc-100"
             >
               {company.website}
             </a>
           )}
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white px-5 py-4 text-center">
-          <div className="text-sm text-zinc-500">Intent score</div>
-          <div className="mt-1 text-4xl font-semibold">{company.intent_score}</div>
+        <div className="rounded-xl border border-zinc-200 bg-white px-5 py-4 text-center dark:border-zinc-800 dark:bg-zinc-900/90">
+          <div className="text-sm text-zinc-500 dark:text-zinc-400">Intent score</div>
+          <div className="mt-1 text-4xl font-semibold text-zinc-900 dark:text-zinc-100">{company.intent_score}</div>
           <span
             className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${intentBadgeClass(company.intent_level)}`}
           >
@@ -121,7 +121,7 @@ export function CompanyDetail({ id }: { id: string }) {
                 )
                 .finally(() => setEnriching(false));
             }}
-            className="mt-3 block w-full rounded-md border border-zinc-300 px-3 py-1 text-xs hover:bg-zinc-50 disabled:opacity-60"
+            className="mt-3 block w-full rounded-md border border-zinc-300 px-3 py-1 text-xs hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
           >
             {enriching ? "Enriching…" : "Re-enrich"}
           </button>
@@ -135,34 +135,34 @@ export function CompanyDetail({ id }: { id: string }) {
         <Meta label="HQ" value={company.headquarters} />
       </div>
 
-      <section className="rounded-xl border border-zinc-200 bg-white p-5">
-        <h2 className="text-lg font-semibold text-zinc-900">
+      <section className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/90">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           Why this lead matters
         </h2>
-        <p className="mt-3 leading-7 text-zinc-700">{company.ai_summary}</p>
-        <p className="mt-4 text-sm leading-6 text-zinc-500">{SCORE_EXPLAINER}</p>
+        <p className="mt-3 leading-7 text-zinc-700 dark:text-zinc-300">{company.ai_summary}</p>
+        <p className="mt-4 text-sm leading-6 text-zinc-500 dark:text-zinc-400">{SCORE_EXPLAINER}</p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-zinc-900">Detected signals</h2>
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Detected signals</h2>
         <div className="grid gap-4 lg:grid-cols-2">
           {signals.map((signal) => (
             <article
               key={signal.id}
-              className="rounded-xl border border-zinc-200 bg-white p-5"
+              className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/90"
             >
               <div className="flex items-center justify-between gap-3">
-                <h3 className="font-medium capitalize text-zinc-900">
+                <h3 className="font-medium capitalize text-zinc-900 dark:text-zinc-100">
                   {signalLabel(signal.signal_type)}
                 </h3>
-                <span className="text-sm text-zinc-500">
+                <span className="text-sm text-zinc-500 dark:text-zinc-400">
                   Strength {(Number(signal.strength) * 100).toFixed(0)}%
                 </span>
               </div>
-              <p className="mt-3 text-sm leading-6 text-zinc-700">
+              <p className="mt-3 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                 {signal.explanation}
               </p>
-              <blockquote className="mt-4 border-l-2 border-zinc-300 pl-3 text-sm italic text-zinc-600">
+              <blockquote className="mt-4 border-l-2 border-zinc-300 pl-3 text-sm italic text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
                 “{signal.evidence}”
               </blockquote>
               {signal.source_url && (
@@ -170,7 +170,7 @@ export function CompanyDetail({ id }: { id: string }) {
                   href={signal.source_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-4 inline-block text-sm text-zinc-900 underline"
+                  className="mt-4 inline-block text-sm text-zinc-900 underline dark:text-zinc-100"
                 >
                   Source
                 </a>
@@ -178,27 +178,27 @@ export function CompanyDetail({ id }: { id: string }) {
             </article>
           ))}
           {signals.length === 0 && (
-            <p className="text-sm text-zinc-500">No signals stored yet.</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">No signals stored yet.</p>
           )}
         </div>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-zinc-900">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           Relevant contacts
         </h2>
         {contacts.length > 0 ? (
-          <ul className="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white">
+          <ul className="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900/90">
             {contacts.map((contact) => (
               <li key={contact.id} className="px-4 py-3">
-                <div className="font-medium text-zinc-900">{contact.name}</div>
-                <div className="text-sm text-zinc-500">
+                <div className="font-medium text-zinc-900 dark:text-zinc-100">{contact.name}</div>
+                <div className="text-sm text-zinc-500 dark:text-zinc-400">
                   {contact.title ?? "Role unknown"}
                 </div>
                 {contact.source_url && (
                   <a
                     href={contact.source_url}
-                    className="text-xs underline"
+                    className="text-xs text-zinc-700 underline dark:text-zinc-300"
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -209,7 +209,7 @@ export function CompanyDetail({ id }: { id: string }) {
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
             No public contacts stored yet. Apply supabase/migrations/002_contacts.sql
             and re-enrich this company.
           </p>
@@ -221,9 +221,9 @@ export function CompanyDetail({ id }: { id: string }) {
 
 function Meta({ label, value }: { label: string; value: string | null }) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4">
-      <div className="text-sm text-zinc-500">{label}</div>
-      <div className="mt-1 font-medium text-zinc-900">{value ?? "—"}</div>
+    <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/90">
+      <div className="text-sm text-zinc-500 dark:text-zinc-400">{label}</div>
+      <div className="mt-1 font-medium text-zinc-900 dark:text-zinc-100">{value ?? "—"}</div>
     </div>
   );
 }
