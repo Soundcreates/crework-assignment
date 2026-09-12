@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     llm_provider: str = "openrouter"
     llm_base_url: str = "https://openrouter.ai/api/v1"
     llm_requests_per_minute: int = 15
+    llm_max_tokens: int = 1500
 
     # firecrawl | mock  (firecrawl auto-falls back to mock when FIRECRAWL_API_KEY is empty)
     search_provider: str = "firecrawl"

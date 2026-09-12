@@ -26,11 +26,13 @@ def _build_chat(settings: Settings, model: str | None = None) -> ChatOpenAI | No
     if not api_key:
         return None
     chosen = (model or resolve_openrouter_model(settings)).strip()
+    max_tokens = getattr(settings, "llm_max_tokens", 1500)
     return ChatOpenAI(
         api_key=api_key,
         base_url=(settings.llm_base_url or DEFAULT_BASE_URL).strip(),
         model=chosen,
         temperature=0,
+        max_tokens=max_tokens,
         max_retries=0,
         extra_body={"provider": {"require_parameters": True}},
         default_headers={

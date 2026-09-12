@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
+from app.utils.stopwords import filter_keywords
+
 DEFAULT_INDUSTRIES = ["SaaS", "AI", "Developer Tools", "B2B"]
 
 
@@ -14,7 +16,7 @@ def generate_queries(
     industries = industries or DEFAULT_INDUSTRIES
     year = year or datetime.now(UTC).year
     geo = f" {country}" if country else ""
-    keywords = [k.strip() for k in (keywords or []) if k and k.strip()]
+    keywords = filter_keywords(keywords or [])
 
     funding = [
         f'"raised seed round" {industry} startup {year}{geo}'

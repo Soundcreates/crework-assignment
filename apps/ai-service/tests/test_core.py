@@ -186,3 +186,36 @@ def test_health_endpoints():
         res_head = client.head(path)
         assert res_head.status_code == 200
 
+
+def test_stopwords_removal():
+    from app.utils.stopwords import remove_stopwords, filter_keyword, filter_keywords
+    from app.discovery.query_generator import generate_queries
+    from app.companies.normalizer import normalize_company_name
+
+    # Basic stop words removal
+    assert remove_stopwords("looking for sales and marketing tools") == "looking sales marketing tools"
+    assert remove_stopwords("the best AI company in the world") == "best ai company world"
+    assert remove_stopwords("a an the in on at for with") == ""
+
+    # Keyword filtering
+    assert filter_keyword("tools for developers") == "tools developers"
+    assert filter_keyword("the") == "the"  # All stop words: falls back to original trimmed
+
+    # Keywords list filtering and deduplication
+    raw_keywords = ["tools for developers", "the", "tools developers", "hiring SDR and BDR"]
+    cleaned = filter_keywords(raw_keywords)
+    assert cleaned == ["tools developers", "the", "hiring SDR BDR"]
+
+    # Integration with query generator
+    queries = generate_queries(
+        industries=["SaaS"],
+        keywords=["tools for outbound sales", "the"],
+    )
+    # Ensure cleaned keywords are used in queries
+    assert any('"tools outbound sales"' in q for q in queries)
+
+    # Normalizer with stopwords
+    assert normalize_company_name("The Acme AI, Inc.", strip_stopwords=True) == "acme ai"
+    assert normalize_company_name("Acme AI, Inc.", strip_stopwords=False) == "acme ai"
+
+
