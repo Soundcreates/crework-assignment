@@ -1,116 +1,86 @@
-# Lead Intelligence
+# Lead Intelligence Platform
 
-Internal POC for discovering companies that may need outbound / appointment-setting support, then ranking them with evidence-backed intent scores.
+Discover companies from public buying-intent signals, enrich profiles, extract evidence, and rank outbound likelihood.
 
-## Architecture
+Default LLM is **`openai/gpt-4o-mini` via OpenRouter** (structured outputs + `provider.require_parameters`). `openrouter/free` is last-resort fallback only — it rate-limits at 20 req/min and often cannot return JSON.
 
-```text
-PRODUCT LAYER          DATA LAYER           INTELLIGENCE LAYER
-Next.js dashboard  →   Supabase Postgres ←  FastAPI + LangGraph
-filters / review       Auth-ready RLS       Firecrawl search/scrape
-Realtime companies     (POC anon access)    OpenRouter structured extraction
-                                            → signals → deterministic score → summary
-```
+## Local setup
 
-`discovery_run_costs` exists in the schema for later spend tracking. V1 does not write it.
+1. Copy env files (never commit real secrets):
 
-Realtime: the dashboard subscribes to `companies` and `signals`. Discovery progress is polled from `discovery_runs`.
+   ```bash
+   cp apps/ai-service/.env.example apps/ai-service/.env
+   cp apps/web/.env.example apps/web/.env.local
+   ```
 
-## Repository
+2. Apply schema to the linked Supabase project:
 
-```text
-lead-intelligence/
-  apps/web/            Next.js dashboard
-  apps/ai-service/     FastAPI research/AI pipeline
-  supabase/            SQL migrations + seed
-  docs/                Architecture notes
-```
+   ```bash
+   supabase db push
+   ```
 
-## Full-stack demo setup (ordered)
+   Migrations live in `supabase/migrations/` (`001` schema, `002` contacts, `003` run-scoped companies / mock source / `completed_with_errors`).
 
-1. Create a Supabase project.
-2. Run `supabase/migrations/001_initial_schema.sql`, then `supabase/migrations/002_contacts.sql`.
-3. Optionally run `supabase/seed.sql` for a populated dashboard before the first live run.
-4. Web app:
+3. Start the AI service (reload is **off** unless `UVICORN_RELOAD=1`):
 
-```bash
-cd apps/web
-cp .env.example .env.local
-# set NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_AI_SERVICE_URL
-npm install
-npm run dev
-```
+   ```bash
+   cd apps/ai-service
+   python -m pip install -r requirements.txt
+   python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+   ```
 
-Without Supabase env vars, the dashboard still opens with **seed demo data**.
+4. Start the web app:
 
-5. AI service:
+   ```bash
+   cd apps/web
+   npm ci
+   npm run dev
+   ```
+
+5. Open `http://localhost:3000/dashboard` and run Discover.
+
+## Technical walkthrough
+
+Code-level map of the discovery graph, LLM client, scoring, and UI: [TECHNICAL.md](TECHNICAL.md).
 
 ```bash
-cd apps/ai-service
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-# set OPENROUTER_API_KEY and FIRECRAWL_API_KEY for live search/enrichment
-uvicorn app.main:app --reload --port 8000
+cd apps/ai-service && python -m pytest -q
+python scripts/review_committee.py
+
+cd apps/web && npm test && npm run lint
 ```
 
-6. Open `http://localhost:3000/dashboard`, then `/discover`.
-
-### Seed-only vs live
-
-- **Seed-only:** no Supabase, no AI service. Dashboard and seed company detail work. Discover will fail until the AI service is up.
-- **Live:** Discover runs LangGraph (`POST /v1/discovery`): query → search → resolve → crawl → enrich → extract signals → score → summary. Results persist to Supabase and appear on the dashboard with scores and evidence.
-
-If `FIRECRAWL_API_KEY` is missing **or** rejected (401/403), search falls back to a **mock fixture provider**. The Discover UI labels mock results so they are not mistaken for live web data.
-
-Never commit `.env` files. If a secret was ever committed, rotate it.
-
-### Smoke script
-
-```bash
-cd apps/ai-service
-source .venv/bin/activate
-PYTHONPATH=. python scripts/run_phase3_discovery.py
-```
-
-## Tests
-
-```bash
-cd apps/ai-service && source .venv/bin/activate && pytest
-cd apps/web && npm test && npm run lint && npm run build
-```
+Run pytest from `apps/ai-service` or the repo root with `pytest apps/ai-service/tests` — `Database(client=None)` is offline and never opens a live Supabase client.
 
 ## V1 vs V2
 
-### What V1 includes (and why)
+**V1 (this repo)**
 
-V1 is a usable internal POC: discover companies from public intent queries (funding, sales hiring, expansion, public demand/discussion, optional keywords), enrich from crawled pages, extract evidence with an LLM, then **rank with a deterministic weighted score**. Scoring is rule-based so results are explainable in a sales review: hiring + funding → high; early-stage + sales hiring → medium-high; no growth signals → low. Seed data exists so the UI can be demoed without keys. Auth is intentionally open (anon RLS) for a time-boxed demo.
+- Keyword + industry discovery (Firecrawl search, mock fallback)
+- LangGraph pipeline: query → search → rank → resolve → dedupe → enrich/score
+- Batched signal extraction, rate-limit backoff, shared RPM limiter
+- ICP filters on discovery (industry / stage / headcount / geography)
+- Contacts extraction once `002_contacts.sql` is applied
+- Dashboard with scores, filters, enrich actions, mock badges, pagination
+- GitHub Actions weekday cron for discovery + stale recheck (needs `AI_SERVICE_URL`)
+- In-process stale-run reaper (marks stranded BackgroundTasks runs failed)
 
-### What V2 would add
+**V2 (not built)**
 
-- Scheduled / continuous signal tracking
-- Stronger scoring calibration and evaluation sets
-- Higher-quality contact graphs and ICP filters
-- Production auth and tighter RLS (service-role writes only)
-- More discussion sources and spend tracking via `discovery_run_costs`
-- Hosted demo + CI on a published GitHub remote
+- Durable queue/worker (Redis, Celery, or pgmq) instead of FastAPI `BackgroundTasks`
+- Auth, per-tenant ICP profiles, CRM write-back
+- Deeper monitoring (signal decay jobs, alerting, cost dashboards)
+- Human-in-the-loop review queue and suppression lists
 
-## Environment
+## Deploy notes
 
-**Web**
+- **Web:** Vercel from `apps/web`. Set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_AI_SERVICE_URL`.
+- **API:** Render/Fly using `apps/ai-service/Dockerfile` and `render.yaml`. Set `FRONTEND_URL` to the Vercel origin (CORS).
+- Do not deploy with `UVICORN_RELOAD=1`.
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_AI_SERVICE_URL`
+## Submission checklist (manual)
 
-**AI service**
-
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `OPENROUTER_API_KEY` (preferred) or `LLM_API_KEY`
-- `LLM_MODEL` (default `openrouter/free`)
-- `FIRECRAWL_API_KEY`
-- `SEARCH_PROVIDER=firecrawl` (or `mock`)
-- `FRONTEND_URL`
-# crework-assignment
+- [ ] Commit and push to GitHub
+- [ ] `supabase db push` on the demo project (002 + 003)
+- [ ] Deploy web + API; paste live demo URL here
+- [ ] Record a 5–10 min Loom **after** a discovery run that produces non-zero scores on real companies (not publisher listicles)

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: lead-intelligence-ai
+    runtime: docker
+    dockerfilePath: apps/ai-service/Dockerfile
+    dockerContext: apps/ai-service
+    envVars:
+      - key: UVICORN_RELOAD
+        value: "0"
+      - key: FRONTEND_URL
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: openai/gpt-4o-mini
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: FIRECRAWL_API_KEY
+        sync: false

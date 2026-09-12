@@ -1,0 +1,24 @@
+name: Scheduled discovery
+
+on:
+  schedule:
+    - cron: "0 13 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    if: ${{ secrets.AI_SERVICE_URL != '' }}
+    steps:
+      - name: Trigger discovery
+        env:
+          AI_SERVICE_URL: ${{ secrets.AI_SERVICE_URL }}
+        run: |
+          curl -fsS -X POST "$AI_SERVICE_URL/v1/discovery" \
+            -H "Content-Type: application/json" \
+            -d '{"industries":["SaaS","AI"],"max_companies":10,"discovery_only":false}'
+      - name: Recheck stale high-intent companies
+        env:
+          AI_SERVICE_URL: ${{ secrets.AI_SERVICE_URL }}
+        run: |
+          curl -fsS -X POST "$AI_SERVICE_URL/v1/companies/recheck-stale"

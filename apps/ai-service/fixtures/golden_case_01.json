@@ -1,0 +1,5 @@
+{
+  "company": "FakeCo",
+  "content": "We raised a $4m seed round and are hiring three Sales Development Representatives while expanding into the US.",
+  "expected_signals": ["funding", "sales_hiring", "expansion"]
+}
