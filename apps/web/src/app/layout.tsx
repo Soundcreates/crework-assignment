@@ -35,19 +35,19 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#eef2ff_45%,_#f4f4f5)] text-zinc-900 antialiased dark:bg-[radial-gradient(circle_at_top,_#09090b,_#0f172a_45%,_#18181b)] dark:text-zinc-100 transition-colors duration-200`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-white text-zinc-900 antialiased dark:bg-black dark:text-white transition-colors duration-150`}
       >
         <ThemeProvider>
-          <header className="border-b border-zinc-200/80 bg-white/70 backdrop-blur dark:border-zinc-800/80 dark:bg-zinc-950/70">
+          <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/90 backdrop-blur dark:border-zinc-800 dark:bg-black/90">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-              <Link href="/" className="font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+              <Link href="/" className="font-semibold tracking-tight text-zinc-900 dark:text-white">
                 Lead Intelligence
               </Link>
-              <nav className="flex items-center gap-5 text-sm text-zinc-600 dark:text-zinc-400">
-                <Link href="/dashboard" className="hover:text-zinc-900 dark:hover:text-zinc-100">
+              <nav className="flex items-center gap-5 text-sm text-zinc-600 dark:text-zinc-300">
+                <Link href="/dashboard" className="hover:text-zinc-900 dark:hover:text-white">
                   Dashboard
                 </Link>
-                <Link href="/discover" className="hover:text-zinc-900 dark:hover:text-zinc-100">
+                <Link href="/discover" className="hover:text-zinc-900 dark:hover:text-white">
                   Discover
                 </Link>
                 <ThemeToggle />

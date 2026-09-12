@@ -174,10 +174,10 @@ export function DiscoverView() {
   return (
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
-        <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline dark:text-zinc-400 dark:hover:text-zinc-200">
+        <Link href="/dashboard" className="text-sm text-zinc-500 hover:underline dark:text-zinc-400 dark:hover:text-white">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
           Discover Companies
         </h1>
         <p className="mt-2 text-zinc-600 dark:text-zinc-300">
@@ -189,13 +189,13 @@ export function DiscoverView() {
         </p>
       </div>
 
-      <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/90">
+      <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950">
         <label className="block text-sm">
           <span className="mb-1 block text-zinc-500 dark:text-zinc-400">Industries</span>
           <input
             value={industries}
             onChange={(e) => setIndustries(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
           />
         </label>
         <label className="block text-sm">
@@ -203,7 +203,7 @@ export function DiscoverView() {
           <input
             value={keywords}
             onChange={(e) => setKeywords(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
             placeholder="appointment setting, dentist marketing"
           />
         </label>
@@ -212,7 +212,7 @@ export function DiscoverView() {
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
             placeholder="US"
           />
         </label>
@@ -221,7 +221,7 @@ export function DiscoverView() {
           <input
             value={stages}
             onChange={(e) => setStages(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
             placeholder="seed, series a"
           />
         </label>
@@ -230,7 +230,7 @@ export function DiscoverView() {
           <input
             value={employeeRanges}
             onChange={(e) => setEmployeeRanges(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
             placeholder="1-50, 51-200"
           />
         </label>
@@ -242,14 +242,14 @@ export function DiscoverView() {
             max={100}
             value={maxCompanies}
             onChange={(e) => setMaxCompanies(Number(e.target.value) || 10)}
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
           />
         </label>
         <button
           type="button"
           disabled={busy}
           onClick={() => void onDiscover()}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
         >
           {busy ? `Running… ${runStatus ?? ""}` : "Run Discovery"}
         </button>
@@ -270,9 +270,9 @@ export function DiscoverView() {
       )}
 
       {result && (
-        <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 text-sm text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/90 dark:text-zinc-300">
+        <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-5 text-sm text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300">
           <div>
-            Run ID: <code className="rounded bg-zinc-100 px-1 py-0.5 font-mono text-xs text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">{result.run_id}</code>
+            Run ID: <code className="rounded bg-zinc-100 px-1 py-0.5 font-mono text-xs text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">{result.run_id}</code>
           </div>
           <div>Status: {result.status}</div>
           <div>Provider: {result.provider}</div>
@@ -287,7 +287,7 @@ export function DiscoverView() {
             <div>{result.search_results_found} search results found</div>
             <div>{result.companies_discovered} companies discovered</div>
           </div>
-          <Link href="/dashboard" className="inline-block text-zinc-900 underline dark:text-zinc-100">
+          <Link href="/dashboard" className="inline-block text-zinc-900 underline dark:text-white dark:hover:text-zinc-200">
             View ranked leads on dashboard
           </Link>
           <ul className="mt-4 space-y-2 border-t border-zinc-100 pt-4 dark:border-zinc-800">
@@ -305,12 +305,12 @@ export function DiscoverView() {
                 {company.id ? (
                   <Link
                     href={`/companies/${company.id}`}
-                    className="font-medium text-zinc-900 underline dark:text-zinc-100"
+                    className="font-medium text-zinc-900 underline dark:text-white dark:hover:text-zinc-200"
                   >
                     {company.name}
                   </Link>
                 ) : (
-                  <span className="font-medium text-zinc-900 dark:text-zinc-100">{company.name}</span>
+                  <span className="font-medium text-zinc-900 dark:text-white">{company.name}</span>
                 )}
                 {company.domain ? (
                   <span className="text-zinc-500 dark:text-zinc-400"> · {company.domain}</span>

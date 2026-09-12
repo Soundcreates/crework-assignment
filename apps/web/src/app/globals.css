@@ -3,13 +3,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f8fafc;
-  --foreground: #18181b;
+  --background: #ffffff;
+  --foreground: #09090b;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #f4f4f5;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -19,8 +19,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
-body {
-  background: transparent;
+html {
+  background-color: var(--background);
   color: var(--foreground);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }

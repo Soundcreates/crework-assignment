@@ -183,7 +183,7 @@ export function DashboardView() {
           <p className="text-sm uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
             Sales Intelligence
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
             Lead Dashboard
           </h1>
           <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-300">
@@ -195,10 +195,10 @@ export function DashboardView() {
           <span
             className={`rounded-full px-2.5 py-1 text-xs font-medium ${
               aiHealthy
-                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border dark:border-emerald-800/60"
+                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:border dark:border-emerald-800"
                 : aiHealthy === false
-                  ? "bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300 dark:border dark:border-amber-800/60"
-                  : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                  ? "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300 dark:border dark:border-amber-800"
+                  : "bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400 dark:border dark:border-zinc-800"
             }`}
           >
             AI service {aiHealthy ? "online" : aiHealthy === false ? "offline" : "checking"}
@@ -209,7 +209,7 @@ export function DashboardView() {
               aria-label="Enrich unscored"
               disabled={bulkBusy}
               onClick={() => void onEnrichUnscored()}
-              className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+              className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-950 dark:text-white dark:hover:bg-zinc-900"
             >
               {bulkEnrichButtonLabel(
                 bulkBusy,
@@ -221,7 +221,7 @@ export function DashboardView() {
           )}
           <Link
             href="/discover"
-            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
           >
             Discover Leads
           </Link>
@@ -250,7 +250,7 @@ export function DashboardView() {
         <Stat label="Signals detected" value={String(signals.length)} />
       </div>
 
-      <div className="grid gap-3 rounded-xl border border-zinc-200 bg-white p-4 md:grid-cols-6 dark:border-zinc-800 dark:bg-zinc-900/90">
+      <div className="grid gap-3 rounded-xl border border-zinc-200 bg-white p-4 md:grid-cols-6 dark:border-zinc-800 dark:bg-zinc-950">
         <Select
           label="Industry"
           value={filters.industry}
@@ -295,7 +295,7 @@ export function DashboardView() {
                 minScore: Number(e.target.value) || 0,
               }))
             }
-            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-black dark:text-white"
           />
         </label>
         <Select
@@ -306,9 +306,9 @@ export function DashboardView() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/90">
+      <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-zinc-50 text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
+          <thead className="bg-zinc-50 text-zinc-500 dark:bg-zinc-900/80 dark:text-zinc-400">
             <tr>
               <th className="px-4 py-3 font-medium">Company</th>
               <th className="px-4 py-3 font-medium">Industry</th>
@@ -323,11 +323,11 @@ export function DashboardView() {
           </thead>
           <tbody>
             {paged.map((company) => (
-              <tr key={company.id} className="border-t border-zinc-100 hover:bg-zinc-50/50 dark:border-zinc-800 dark:hover:bg-zinc-800/40">
+              <tr key={company.id} className="border-t border-zinc-100 hover:bg-zinc-50/50 dark:border-zinc-800/80 dark:hover:bg-zinc-900/50">
                 <td className="px-4 py-3">
                   <Link
                     href={`/companies/${company.id}`}
-                    className="font-medium text-zinc-900 hover:underline dark:text-zinc-100"
+                    className="font-medium text-zinc-900 hover:underline dark:text-white dark:hover:text-zinc-200"
                   >
                     {company.name}
                   </Link>
@@ -356,7 +356,7 @@ export function DashboardView() {
                     .map(signalLabel)
                     .join(", ") || "—"}
                 </td>
-                <td className="px-4 py-3 font-semibold text-zinc-900 dark:text-zinc-100">
+                <td className="px-4 py-3 font-semibold text-zinc-900 dark:text-white">
                   {company.intent_score}
                 </td>
                 <td className="px-4 py-3">
@@ -375,7 +375,7 @@ export function DashboardView() {
                         e.target.value as ReviewStatus,
                       )
                     }
-                    className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+                    className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs dark:border-zinc-800 dark:bg-black dark:text-zinc-200"
                   >
                     <option value="new">new</option>
                     <option value="reviewing">reviewing</option>
@@ -394,7 +394,7 @@ export function DashboardView() {
                     type="button"
                     disabled={bulkBusy || enrichingId === company.id}
                     onClick={() => void onEnrich(company.id)}
-                    className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                    className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
                   >
                     {enrichingId === company.id ? "Enriching…" : "Enrich"}
                   </button>
@@ -407,7 +407,7 @@ export function DashboardView() {
                   <p>{EMPTY_LEADS_COPY}</p>
                   <Link
                     href="/discover"
-                    className="mt-3 inline-block rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                    className="mt-3 inline-block rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200"
                   >
                     {EMPTY_LEADS_CTA}
                   </Link>
@@ -433,7 +433,7 @@ export function DashboardView() {
             type="button"
             disabled={safePage <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="rounded-md border border-zinc-300 bg-white px-3 py-1 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+            className="rounded-md border border-zinc-300 bg-white px-3 py-1 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
           >
             Previous
           </button>
@@ -444,7 +444,7 @@ export function DashboardView() {
             type="button"
             disabled={safePage >= pageCount}
             onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-            className="rounded-md border border-zinc-300 bg-white px-3 py-1 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+            className="rounded-md border border-zinc-300 bg-white px-3 py-1 disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
           >
             Next
           </button>
@@ -456,9 +456,9 @@ export function DashboardView() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/90">
+    <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
       <div className="text-sm text-zinc-500 dark:text-zinc-400">{label}</div>
-      <div className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+      <div className="mt-2 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white">
         {value}
       </div>
     </div>
@@ -482,7 +482,7 @@ function Select({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 capitalize dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+        className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 capitalize dark:border-zinc-800 dark:bg-black dark:text-white"
       >
         {options.map((option) => (
           <option key={option} value={option}>
